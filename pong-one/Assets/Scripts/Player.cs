@@ -1,9 +1,7 @@
 using UnityEngine;
+ 
 
-
-/// <summary>
-/// Player class which handles user input and calls appropriate movement methods
-/// </summary>
+// Player class which handles gets input for paddle movement 
 public class Player : MonoBehaviour
 {
     public KeyCode upKey;
@@ -11,29 +9,25 @@ public class Player : MonoBehaviour
 
     private Paddle paddle;
 
-    // Init paddle
+    // init paddle component
     void Start()
     {
         paddle = GetComponent<Paddle>();
     }
     
-    
-    // Checks for user input
+    // Check for user up or down input
     void Update()
     {
+        float direction = 0;
         if (Input.GetKey(upKey))
         {
-            MovePaddle(1);
+            direction = 1;
         }
         else if (Input.GetKey(downKey))
         {
-            MovePaddle(-1);
+            direction = -1;
         }
-    }
-
-    // Move paddle in appropriate direction
-    public void MovePaddle(int direction)
-    {
+        
         paddle.MovePaddle(direction);
     }
 }

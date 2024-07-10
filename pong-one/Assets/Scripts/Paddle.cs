@@ -5,30 +5,22 @@ using UnityEngine;
 /// Paddle class which handles paddle movement
 /// </summary>
 public class Paddle : MonoBehaviour
-{
+{ 
     public float moveSpeed = 10f;
-    public string edgesTag = "Edges";
+    string edgesTag = "Edges";
+    private bool isFrozen = false;
 
-    // Get input and move paddle
-    void Update()
-    {
-        float verticalInput = Input.GetAxisRaw("Vertical");
-
-        MovePaddle(verticalInput);
-    }
-
-    // Movement handler
+    // Enables paddle movement and prevents from moving off screen
     public void MovePaddle(float direction)
     {
+        if (isFrozen) return;
+        
         float moveAmount = direction * moveSpeed * Time.deltaTime;
 
-        // Calculate target position
         Vector3 targetPosition = transform.position + new Vector3(0, moveAmount, 0);
 
-        // Move the paddle if not hitting an edge
         transform.Translate(0, moveAmount, 0);
 
-        // Collision check to prevent passing through edges
         if (direction > 0)
         {
             Collider2D[] hitColliders = Physics2D.OverlapBoxAll(transform.position, GetComponent<BoxCollider2D>().size, 0f);
@@ -61,5 +53,11 @@ public class Paddle : MonoBehaviour
                 }
             }
         }
+    }
+
+    // Stop paddle movement
+    public void FreezePaddle()
+    {
+        isFrozen = true;
     }
 }
